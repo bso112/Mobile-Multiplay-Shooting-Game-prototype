@@ -42,11 +42,16 @@ public class ObjectPooler : MonoBehaviour
             //각각의 pool을 pools에서 옮길 큐. 오브젝트 풀 하나는 Queue<GameObject>로 표현된다. 
             Queue<GameObject> objectPool = new Queue<GameObject>();
 
+
+            GameObject parent = new GameObject(pool.prefab.name + "Pool");
+
             for (int i = 0; i < pool.size; i++)
             {
                 //풀 사이즈만큼 오브젝트를 미리 만들어 놓음
                 GameObject obj = Instantiate(pool.prefab);
                 obj.SetActive(false);
+                //인스펙터창 정리하기 위해 묶음
+                obj.transform.SetParent(parent.transform);
                 //생성한 인스턴스에 대한 레퍼런스를 pool에 넣는다.
                 objectPool.Enqueue(obj);
             }
@@ -71,6 +76,7 @@ public class ObjectPooler : MonoBehaviour
 
         //재사용하기 위해 다시 레퍼런스를 해당 풀에 넣는다.
         poolDictionary[tag].Enqueue(objectToSpawn);
+
 
         return objectToSpawn;
     }
