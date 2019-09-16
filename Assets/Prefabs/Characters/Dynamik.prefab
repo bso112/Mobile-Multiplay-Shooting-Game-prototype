@@ -57,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350072064639967384}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.78}
+  m_LocalPosition: {x: 0, y: 0, z: 1.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1350072063705481361}
@@ -87,7 +87,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350072064876153215}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: -1, z: 8.26}
+  m_LocalPosition: {x: 0, y: -0.2, z: 6.68}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1350072063705481361}
@@ -117,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350072065450794704}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.24, z: 4.6}
+  m_LocalPosition: {x: 0, y: 2.49, z: 4.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1350072063705481361}
@@ -297,7 +297,7 @@ MonoBehaviour:
   sp:
     baseValue: 10
   attack:
-    baseValue: 0
+    baseValue: 10
   armor:
     baseValue: 5
   range:
@@ -316,12 +316,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c69f64a43a5242441ba6434776c105e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 1368530905574767416, guid: 906d71c727e7e0e42a9847eff8b95e9d,
+  projectilePrefab: {fileID: 5201691781656601777, guid: 047e3c8ef9ed18c429dd0d5276e934d2,
     type: 3}
-  shotPos: {fileID: 0}
-  shotPower: 1000
+  specialProjectilePrefab: {fileID: 1368530905574767416, guid: 906d71c727e7e0e42a9847eff8b95e9d,
+    type: 3}
+  shotPos: {fileID: 1350072064639967387}
   firePerClick: 1
-  shootDelay: 0.2
+  fireCoolDown: 2
+  skillCoolDown: 0
+  shootDelay: 1
+  shotPower: 0
 --- !u!1 &3235104464285383857
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A4CE4057-2458-40FB-D0D2-EBB522E769EA}</ProjectGuid>
+    <ProjectGuid>{91B6AD00-83D7-D3E7-64EC-3B3B493D617F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>PhotonUnityNetworking.Editor</AssemblyName>
@@ -294,25 +294,25 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Assets/External Tools/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Assets/External Tools/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Assets/External Tools/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Assets/External Tools/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Purchasing">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.4f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -671,11 +671,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PhotonRealtime.csproj">
-      <Project>{80F4DB76-2FD8-C235-D164-F0DE188529B1}</Project>
+      <Project>{91D69660-C343-216C-8F4E-2A6FC87B3B48}</Project>
       <Name>PhotonRealtime</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{AD566D6A-ACF1-AC29-07D6-8DE3A1C8FA93}</Project>
+      <Project>{8B35950C-7EC7-56A5-4DE5-AB5297E42804}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
   </ItemGroup>

@@ -123,4 +123,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ownerStats: {fileID: 0}
-  owner: {fileID: 0}
+  damage: 0

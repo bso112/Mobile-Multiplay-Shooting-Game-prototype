@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{92147305-BF29-B225-9C9F-1771E4AC2DEA}</ProjectGuid>
+    <ProjectGuid>{4DE72211-3915-6E67-5D86-E846F60AC78C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-firstpass</AssemblyName>
@@ -187,25 +187,25 @@
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -394,19 +394,19 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.4f1/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Assets/External Tools/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Assets/External Tools/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Assets/External Tools/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Assets/External Tools/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_rebuild/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/bso11/Desktop/workspace/UnityWork/MobileFPS_Brwal Stars/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.4f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -756,47 +756,47 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj">
-      <Project>{F255C98B-7C67-4B61-C88C-5F18FEAE521B}</Project>
+      <Project>{23D455D9-25A1-1142-5B20-ACAE8895FBC7}</Project>
       <Name>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PunDemos.DemoHubEditor.csproj">
-      <Project>{D62CADE7-FC94-7CE8-3409-0ED279F0C09F}</Project>
+      <Project>{EE7BFBD6-067D-C716-DED9-AB2D25FE931C}</Project>
       <Name>PunDemos.DemoHubEditor</Name>
     </ProjectReference>
     <ProjectReference Include="PunDemos.DemoSlotcarEditor.csproj">
-      <Project>{6E28D9EE-4E56-AECD-EF73-626B2DD9274F}</Project>
+      <Project>{11110852-5667-2753-57F4-1BA7F988EF4E}</Project>
       <Name>PunDemos.DemoSlotcarEditor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Demos.csproj">
-      <Project>{AC0CA5CD-AE84-1BF2-1B10-299B1196C914}</Project>
+      <Project>{E6F8F826-6662-91FF-CF47-67701B8B99C7}</Project>
       <Name>PhotonUnityNetworking.Demos</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.csproj">
-      <Project>{6E201DCE-FDD8-40CA-6F95-BF23AD94D52D}</Project>
+      <Project>{87901E0E-C6B1-573A-B382-B78FC5B2CD75}</Project>
       <Name>PhotonUnityNetworking.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonWebSocket.csproj">
-      <Project>{3BC7252E-9A9B-3073-517F-DDB79A26836B}</Project>
+      <Project>{2AB8CE06-0BBA-E884-6B4B-CC7734C01D47}</Project>
       <Name>PhotonWebSocket</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonRealtime.csproj">
-      <Project>{80F4DB76-2FD8-C235-D164-F0DE188529B1}</Project>
+      <Project>{91D69660-C343-216C-8F4E-2A6FC87B3B48}</Project>
       <Name>PhotonRealtime</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{AD566D6A-ACF1-AC29-07D6-8DE3A1C8FA93}</Project>
+      <Project>{8B35950C-7EC7-56A5-4DE5-AB5297E42804}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonChat.csproj">
-      <Project>{E4FF5D81-5811-15DF-9A62-5A05DD43EC53}</Project>
+      <Project>{7D4A6055-D5D6-CE9B-DF07-8C787D421482}</Project>
       <Name>PhotonChat</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
-      <Project>{10D85BAF-BF39-F378-33E2-890F5FCE1AC1}</Project>
+      <Project>{99B0A815-D241-F2B2-A09B-BFC44247DA14}</Project>
       <Name>PhotonUnityNetworking.Utilities.Culling.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
-      <Project>{A4CE4057-2458-40FB-D0D2-EBB522E769EA}</Project>
+      <Project>{91B6AD00-83D7-D3E7-64EC-3B3B493D617F}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
   </ItemGroup>
