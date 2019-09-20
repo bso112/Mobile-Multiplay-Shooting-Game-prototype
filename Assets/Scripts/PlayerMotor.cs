@@ -17,23 +17,22 @@ public class PlayerMotor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(joyStick != null)
+        {
+            Vector3 direction = Vector3.forward * joyStick.Vertical + Vector3.right * joyStick.Horizontal;
+            rb.MovePosition(transform.position + direction * speed * Time.deltaTime);
 
-        Vector3 direction = Vector3.forward * joyStick.Vertical + Vector3.right * joyStick.Horizontal;
-        rb.MovePosition(transform.position + direction * speed * Time.deltaTime);
+            transform.LookAt(transform.position + direction);
 
-        transform.LookAt(transform.position + direction);
-
-        //Debug.DrawRay(transform.position, direction* 30, Color.red, 3f);
-
-
-
+        }
 
 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        rb.angularVelocity = Vector3.zero;
+        if(rb != null)
+            rb.angularVelocity = Vector3.zero;
     }
 
 }
