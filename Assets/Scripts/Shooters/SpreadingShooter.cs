@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 public class SpreadingShooter : Shooter
 {
     [Header("한번 발사에 얼마나 많은 투사체가 날아가는가")]
@@ -35,7 +35,7 @@ public class SpreadingShooter : Shooter
         {
 
             //발사체 스폰
-            GameObject projectile = pooler.SpawnFromPool(projectilePrefab.name, shotPos[shotPosCount].position, Quaternion.Euler(transform.forward));
+            GameObject projectile = Photon.Pun.PhotonNetwork.Instantiate(projectilePrefab.name, shotPos[shotPosCount].position, Quaternion.Euler(transform.forward));
             //발사체에게 플레이어 정보 넘겨주기
             projectile.GetComponent<Projectile>().ownerStats = ownerStats;
             //발사

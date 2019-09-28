@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 public class StraightShooter : Shooter
 {
 
@@ -11,7 +11,7 @@ public class StraightShooter : Shooter
         for (int i = 0; i < firePerClick; i++)
         {
             //발사체 스폰
-            GameObject projectile = pooler.SpawnFromPool(projectilePrefab.name, shotPos[0].position, Quaternion.Euler(transform.forward));
+            GameObject projectile = PhotonNetwork.Instantiate(projectilePrefab.name, shotPos[0].position, Quaternion.Euler(transform.forward));
             //발사체에게 플레이어 정보 넘겨주기
             projectile.GetComponent<Projectile>().ownerStats = ownerStats;
             //발사

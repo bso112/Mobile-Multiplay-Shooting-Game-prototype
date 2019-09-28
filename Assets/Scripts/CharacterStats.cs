@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
 
 public class CharacterStats : MonoBehaviour
 {
@@ -13,21 +15,38 @@ public class CharacterStats : MonoBehaviour
     public Stat range;
     public Stat attackSpeed;
 
-    int currentHP;
+    public Image HealthUI;
 
-    private void Start()
+    float currentHP;
+
+    private PhotonView photonView;
+
+    private void OnEnable()
     {
+        if(HealthUI != null)
+            HealthUI.fillAmount = 1;
         currentHP = Maxhp.GetValue();
     }
 
+    private void Start()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
 
-    public void TakeDamage(int damage)
+    public void TakeDamageRPC(float _damage)
+    {
+        photonView.RPC("TakeDamage", RpcTarget.AllBuffered, _damage);
+    }
+
+    [PunRPC]
+    public void TakeDamage(float _damage)
     {
         //맞는 애니메이션 실행
-        damage -= armor.GetValue();
-        damage = Mathf.Clamp(damage, 0, damage);
-        currentHP -= damage;
-        Debug.Log(gameObject.name + "이" + damage +"의 데미지를 받았습니다.");
+        _damage -= armor.GetValue();
+        _damage = Mathf.Clamp(_damage, 0, _damage);
+        currentHP -= _damage;
+        HealthUI.fillAmount = currentHP / Maxhp.GetValue();
+        Debug.Log(gameObject.name + "이" + _damage +"의 데미지를 받았습니다.");
         if(currentHP <= 0)
         {
             Die();

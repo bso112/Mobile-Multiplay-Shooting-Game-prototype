@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
 public class Bomb : Projectile
 {
     [Header("폭탄이 밀어내는 힘")]
@@ -13,34 +13,36 @@ public class Bomb : Projectile
     [Header("폭탄이 터지기까지의 딜레이")]
     public float explosionDelay;
 
+
     public GameObject effect;
 
     private ParabolaController controller;
     private Vector3 startPos;
-    private ObjectPooler pooler;
     private ParticleSystem particle;
     private Renderer[] renderers;
 
-    private void Start()
-    {
-        startPos = transform.position;
-        controller = GetComponent<ParabolaController>();
-        pooler = ObjectPooler.instance;
-        particle = effect.GetComponent<ParticleSystem>();
-        renderers = GetComponentsInChildren<Renderer>();
-    }
-
     private void OnEnable()
     {
-        if(renderers != null)
+        if (renderers != null)
         {
             foreach (var renderer in renderers)
             {
                 renderer.enabled = true;
             }
         }
-        
 
+        if(controller != null)
+            controller.FollowParabola();
+
+
+    }
+
+    private void Start()
+    {
+        startPos = transform.position;
+        controller = GetComponent<ParabolaController>();
+        particle = effect.GetComponent<ParticleSystem>();
+        renderers = GetComponentsInChildren<Renderer>();
     }
 
 
@@ -70,46 +72,39 @@ public class Bomb : Projectile
 
     IEnumerator Explosion()
     {
-        yield return new WaitForSeconds(explosionDelay);
 
-        Debug.Log("폭발!");
-
-        if (ownerStats == null)
+        if (ownerStats != null)
         {
-            Debug.Log("ownerStat이 없습니다");
-        }
+            yield return new WaitForSeconds(explosionDelay);
 
-        //부딪힌 곳을 시작으로 radius만큼 주변에 있는 콜라이더들을 가져움
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-        foreach (var col in colliders)
-        {
-            //로컬플레이어 혹은 움직일 수 없는 오브젝트면 패스.
-            if (col.CompareTag("LocalPlayer") || !col.CompareTag("Moveable"))
-                continue;
-
-            Rigidbody rib = col.GetComponent<Rigidbody>();
-            if (rib != null)
+            //부딪힌 곳을 시작으로 radius만큼 주변에 있는 콜라이더들을 가져움
+            Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+            foreach (var col in colliders)
             {
-                rib.AddExplosionForce(power, transform.position, radius, upForce, ForceMode.Force);
-                CharacterStats targetStats = col.GetComponent<CharacterStats>();
-                if (targetStats != null)
+                //로컬플레이어 혹은 움직일 수 없는 오브젝트면 패스.
+                if (col.CompareTag("LocalPlayer"))
+                    continue;
+
+                Rigidbody rib = col.GetComponent<Rigidbody>();
+                if (rib != null)
                 {
-                    targetStats.TakeDamage(ownerStats.attack.GetValue() + damage);
+                    rib.AddExplosionForce(power, transform.position, radius, upForce, ForceMode.Force);
+                    CharacterStats targetStats = col.GetComponent<CharacterStats>();
+                    if (targetStats != null)
+                    {
+                        targetStats.TakeDamageRPC(ownerStats.attack.GetValue() + damage);
+
+                    }
+
                 }
-
             }
+
+            //파티클 시스템 재생
+            GameObject effectObj = PhotonNetwork.Instantiate(effect.name, transform.position, Quaternion.identity);
+            PhotonNetwork.Destroy(gameObject);
         }
 
-        //파티클 시스템 재생
-        GameObject effectObj = pooler.SpawnFromPool(effect.name, transform.position, Quaternion.identity);
-        //파티클 끝날 때 까지 잠깐 숨기기
-        foreach(var renderer in renderers)
-        {
-            renderer.enabled = false;
-        }
-        yield return new WaitForSeconds(particle.main.duration);
-        effectObj.SetActive(false);
-        gameObject.SetActive(false);
+        
     }
 
     private void OnDrawGizmos()

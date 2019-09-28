@@ -24,8 +24,8 @@ public class Bullet : Projectile
 
         CharacterStats target = other.GetComponent<CharacterStats>();
         if(target!=null && target != ownerStats)
-        {
-            target.TakeDamage(ownerStats.attack.GetValue());
+        {   
+            target.TakeDamageRPC(ownerStats.attack.GetValue());
             gameObject.SetActive(false);
         }
         

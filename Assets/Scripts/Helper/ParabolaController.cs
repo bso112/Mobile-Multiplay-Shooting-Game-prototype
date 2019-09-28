@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Photon.Pun;
 
 public class ParabolaController : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class ParabolaController : MonoBehaviour
     //draw
     protected ParabolaFly parabolaFly;
 
+    private PhotonView photonView;
+
     void OnDrawGizmos()
     {
         if (gizmo == null)
@@ -60,7 +63,6 @@ public class ParabolaController : MonoBehaviour
         }
     }
 
-
     // Use this for initialization
     void Start()
     {
@@ -77,6 +79,8 @@ public class ParabolaController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         nextParbola = false;
 
         if (Animation && parabolaFly != null && animationTime < parabolaFly.GetDuration())

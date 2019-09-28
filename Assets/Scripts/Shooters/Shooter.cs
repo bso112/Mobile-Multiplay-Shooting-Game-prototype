@@ -65,6 +65,8 @@ public abstract class Shooter : MonoBehaviour
 
     protected abstract IEnumerator Ultimate(GameObject projectilePrefab);
 
+   
+
 
 
 

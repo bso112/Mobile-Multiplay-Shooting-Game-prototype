@@ -7,27 +7,40 @@ public class Bush : MonoBehaviour
 
     MeshRenderer meshRenderer;
     //나중에 멀티플레이용으로 바꾸기.
+    private GameManager gm;
+
 
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
+        gm = GameManager.Instance;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Player"))
+        if (other.transform.CompareTag("Player") || other.transform.CompareTag("LocalPlayer"))
         {
-            meshRenderer.material.color = ModifyAlpha(meshRenderer, 0.3f);
+            PlayerSetup setup = other.GetComponent<PlayerSetup>();
+            //아군이면 부쉬 속에서 투명하게 보인다.              
+            if (gm.HomeTeam == setup.Team)
+            {
+                meshRenderer.material.color = ModifyAlpha(meshRenderer, 0.3f);
+            }
 
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.CompareTag("Player"))
+        if (other.transform.CompareTag("Player") || other.transform.CompareTag("LocalPlayer"))
         {
+            PlayerSetup setup = other.GetComponent<PlayerSetup>();
 
-            meshRenderer.material.color = ModifyAlpha(meshRenderer, 1f);
+            //다시 원래 투명도로 바꿔줌
+            if (gm.HomeTeam == setup.Team)
+            {
+                meshRenderer.material.color = ModifyAlpha(meshRenderer, 1f);
+            }
         }
     }
 

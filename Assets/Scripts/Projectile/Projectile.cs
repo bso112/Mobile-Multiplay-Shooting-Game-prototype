@@ -11,7 +11,7 @@ public class Projectile : MonoBehaviour
     protected Transform owner;
 
     [Header("기본공격에 붙는 추가데미지")]
-    public int damage;
+    public float damage;
 
     void Start()
     {

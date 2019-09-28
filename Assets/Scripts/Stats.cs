@@ -7,13 +7,13 @@ public class Stat
 {
 
     [SerializeField]
-    public int baseValue;
+    public float baseValue;
 
-    private List<int> modifiers = new List<int>();
+    private List<float> modifiers = new List<float>();
 
-    public int GetValue()
+    public float GetValue()
     {
-        int result = baseValue;
+        float result = baseValue;
         modifiers.ForEach(x => result += x);
         return result;
     }

@@ -40,6 +40,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        ShowOnlyOnePanel(loginPanel.name);
         PhotonNetwork.AutomaticallySyncScene = true;
         currentPlayerPrefab = "Dynamik";
     }
@@ -108,6 +109,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void OnLoginBtnClicked()
     {
         PhotonNetwork.NickName = nameField.text;
+        if (PhotonNetwork.OfflineMode)
+        {
+            PhotonNetwork.Disconnect();
+        }
+        PhotonNetwork.OfflineMode = false;
         PhotonNetwork.ConnectUsingSettings();
 
 
