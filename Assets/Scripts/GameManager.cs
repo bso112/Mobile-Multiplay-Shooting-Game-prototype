@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine.UI;
 using System.IO;
 
@@ -26,53 +27,76 @@ public class GameManager : MonoBehaviour
     [Header("mathTablePanel 관련")]
     public GameObject matchTablePanel;
 
-    public Sprite[] portraits;
+    [SerializeField]
+    private Sprite[] portraits;
 
-    public GameObject[] A_TeamProfiles;
+    [SerializeField]
+    private GameObject[] A_TeamProfiles;
     private Text[] A_TeamNames;
     private Image[] A_TeamPortraits;
 
-    public GameObject[] B_TeamProfiles;
+    [SerializeField]
+    private GameObject[] B_TeamProfiles;
     private Image[] B_TeamPortraits;
     private Text[] B_TeamNames;
 
     //A팀과 B팀의 스폰 포인트
-    public Transform[] A_spawnPoints;
-    public Transform[] B_spawnPoints;
+    [SerializeField]
+    private Transform[] A_spawnPoints;
+    [SerializeField]
+    private Transform[] B_spawnPoints;
 
-    public int HomeTeam { get; private set; }
 
     private PhotonView photonView;
-    private Dictionary<string, Sprite> profileDic = new Dictionary<string, Sprite>();
+    private TeamManager teamMgr;
 
-    //게임관련 필드
-    [HideInInspector]
-    public int HomeScore;
-    public Text homeScoreText;
-    [HideInInspector]
-    public int AwayScore;
-    public Text awayScoreText;
+    private Dictionary<string, Sprite> portraitDic = new Dictionary<string, Sprite>();
+
+
 
     [Header("게임 러닝타임(초)")]
     [SerializeField]
     private float GameTimeLimit;
     public float CurrentGameTime { get; private set; }
 
-    private bool isHomeWin;
+    [Range(0,1)]
+    private int winner;
     private bool timeOut;
     private bool gotTenCoin;
 
-    //Coin 스크립트에서 인보크함.
-    public System.Action OnScoreUpdated;
+    private System.Action OnScoreUpdated;
 
-    
+    //한번만 실행하기 위한 단순한 락
+    private bool Lock;
+
     private void Start()
     {
-        ObjectPooler.instance.OnObjectPoolReady += InitGame;
-#if UNITY_EDITOR
-        //PhotonNetwork.OfflineMode = true;
-#endif
+        photonView = GetComponent<PhotonView>();
+        teamMgr = TeamManager.Instance;
+
     }
+
+    private void Update()
+    {
+        if (!Lock && ObjectPooler.instance.IsPoolReady)
+        {
+            InitGame();
+            Lock = true;
+        }
+
+        CurrentGameTime += Time.deltaTime;
+
+        if (CurrentGameTime >= GameTimeLimit)
+        {
+            timeOut = true;
+        }
+
+        //if (teamMgr.ATeamScore > 10 || teamMgr.BTeamScore > 10)
+        //{
+        //    gotTenCoin = true;
+        //}
+    }
+
 
     private void InitGame()
     {
@@ -90,9 +114,9 @@ public class GameManager : MonoBehaviour
             B_TeamNames = B_Profile.GetComponentsInChildren<Text>();
         }
 
-        foreach (var profile in portraits)
+        foreach (var portrait in portraits)
         {
-            profileDic.Add(profile.name, profile);
+            portraitDic.Add(portrait.name, portrait);
         }
 
         //네트워크가 준비되면
@@ -104,29 +128,33 @@ public class GameManager : MonoBehaviour
             //캐릭터 스폰
             int A_index = 0;
             int B_index = 0;
-            ExitGames.Client.Photon.Hashtable properties = PhotonNetwork.LocalPlayer.CustomProperties;
 
-            //로컬 플레이어를 팀에 따라 위치를 정해 스폰한다.
-            if ((int)properties["team"] == 0)
-            {
-                A_index = Mathf.Clamp(A_index, 0, A_spawnPoints.Length);
-                GameObject player = PhotonNetwork.Instantiate((string)properties["character"], A_spawnPoints[A_index++].position, Quaternion.identity);
-                player.GetComponent<PlayerSetup>().SetTeamRPC(0);
-                HomeTeam = 0;
-            }
-            else
-            {
-                B_index = Mathf.Clamp(B_index, 0, A_spawnPoints.Length);
-                GameObject player = PhotonNetwork.Instantiate((string)properties["character"], B_spawnPoints[B_index++].position, Quaternion.identity);
-                player.GetComponent<PlayerSetup>().SetTeamRPC(1);
-                HomeTeam = 1;
-            }
 
-            //매치 테이블 셋팅
-            if (photonView.IsMine)
-            {
-                SetProfile();
-            }
+                ExitGames.Client.Photon.Hashtable properties = PhotonNetwork.LocalPlayer.CustomProperties;
+
+
+                //A팀은 A팀 포지션에서 스폰, B팀은 B팀 포지션에서 스폰.
+                if ((int)properties["team"] == 0)
+                {
+                    A_index = Mathf.Clamp(A_index, 0, A_spawnPoints.Length);
+                    GameObject character = PhotonNetwork.Instantiate((string)properties["character"], A_spawnPoints[A_index++].position, Quaternion.identity);
+                    //각 플레이어마다 팀을 정해준다.
+                    character.GetComponent<PlayerSetup>().SetTeamRPC(0);
+
+                }
+                else
+                {
+                    B_index = Mathf.Clamp(B_index, 0, A_spawnPoints.Length);
+                    GameObject character = PhotonNetwork.Instantiate((string)properties["character"], B_spawnPoints[B_index++].position, Quaternion.identity);
+                    character.GetComponent<PlayerSetup>().SetTeamRPC(1);
+                }
+
+
+            
+
+
+            //매치테이블 셋팅
+            StartCoroutine(SetProfileCorutine());
 
 
         }
@@ -139,81 +167,64 @@ public class GameManager : MonoBehaviour
         Destroy(matchTablePanel, 3f);
 
 
-        OnScoreUpdated += EndGame;
-        OnScoreUpdated += UpdateScoreUI;
-    }
-
-
-    private void Update()
-    {
-        CurrentGameTime += Time.deltaTime;
-
-        if (CurrentGameTime >= GameTimeLimit)
-        {
-            timeOut = true;
-        }
-
-        if (HomeScore > 10 || AwayScore > 10)
-        {
-            gotTenCoin = true;
-        }
-    }
-
-    private void UpdateScoreUI()
-    {
-        homeScoreText.text = HomeScore.ToString();
-        awayScoreText.text = AwayScore.ToString();
+        //OnScoreUpdated += EndGame;
 
     }
 
 
-    private void EndGame()
+
+
+
+
+
+    
+
+
+    //private void EndGame()
+    //{
+    //    if (timeOut)
+    //    {
+    //        if (teamMgr.ATeamScore > teamMgr.BTeamScore)
+    //        {
+    //            winner = 0;
+    //        }
+    //        else
+    //            winner = 1;
+
+    //    }
+    //}
+
+
+
+   
+
+
+    //매치테이블을 셋팅
+    private IEnumerator SetProfileCorutine()
     {
-        if(timeOut)
+        //커스텀 프로퍼티를 가져오는데 값이 null이나 ""이면 충분히 기다리지 않았다는 뜻.
+        yield return new WaitForSeconds(0.1f);
+
+        Debug.Log("setProfile");
+        if (PhotonNetwork.InRoom)
         {
-            if (HomeScore > AwayScore)
-            {
-                isHomeWin = true;
-            }
-
-            OnGameEnd();
-        }
-    }
-
-
-
-    void OnGameEnd()
-    {
-        if (isHomeWin)
-        {
-            Debug.Log("HomeWin!");
-            //승리 판넬 띄우고, 보상주기
-            //OnHomeWin?.invoke(); ?? 따로 처리하는 걸 빼는게 좋으려나..
-        
+            Debug.Log("in room");
         }
         else
-        {
-            Debug.Log("AwayWin!");
-            //패배 판넬 띄우기
-            //OnAwayWin?.invoke(); ??
-        }
-    }
+            Debug.Log("out room");
 
-
-    //매치테이블 셋팅
-    private void SetProfile()
-    {
         int A_TeamProfileIndex = 0;
         int B_TeamProfileIndex = 0;
         foreach (var player in PhotonNetwork.PlayerList)
         {
+            Debug.Log("참가한 플레이어 이름" + player.NickName);
             ExitGames.Client.Photon.Hashtable properties = player.CustomProperties;
 
             if ((int)properties["team"] == 0)
             {
                 A_TeamProfileIndex = Mathf.Clamp(A_TeamProfileIndex, 0, A_TeamProfiles.Length);
                 A_TeamNames[A_TeamProfileIndex].text = player.NickName;
-                A_TeamPortraits[A_TeamProfileIndex++].sprite = profileDic[(string)properties["character"]];
+                A_TeamPortraits[A_TeamProfileIndex++].sprite = portraitDic[(string)properties["character"]];
 
 
             }
@@ -221,10 +232,13 @@ public class GameManager : MonoBehaviour
             {
                 B_TeamProfileIndex = Mathf.Clamp(B_TeamProfileIndex, 0, B_TeamProfiles.Length);
                 B_TeamNames[B_TeamProfileIndex].text = player.NickName;
-                B_TeamPortraits[B_TeamProfileIndex++].sprite = profileDic[(string)properties["character"]];
+                Debug.Log(player.NickName + "의 캐릭터: " + (string)properties["character"]);
+                B_TeamPortraits[B_TeamProfileIndex++].sprite = portraitDic[(string)properties["character"]];
             }
         }
+
     }
+
 
 }
 

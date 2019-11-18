@@ -35,13 +35,14 @@ public class ObjectPooler : MonoBehaviourPunCallbacks, IPunPrefabPool
     //큐를 쓰는 이유는 꺼낼때 빠르기 떄문이다.(스택과는 다르게 인간이 볼때 합리적인 순서로 저장되는 자료구조이기도하고) List는 인덱스로 꺼내고, 큐는 그냥 꺼내기 떄문에 더 빠름.
     Dictionary<string, Queue<GameObject>> poolDictionary;
 
-    public System.Action OnObjectPoolReady;
+    public event System.Action OnObjectPoolReady;
+    public bool IsPoolReady { get; private set; }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        //포톤 네트워크에게 이 
+        //포톤 네트워크에게 이 커스텀 풀을 인식시킴.
         PhotonNetwork.PrefabPool = this;
 
 
@@ -66,10 +67,12 @@ public class ObjectPooler : MonoBehaviourPunCallbacks, IPunPrefabPool
             }
 
             poolDictionary.Add(pool.tag, objectPool);
-
+                
         }
 
         OnObjectPoolReady?.Invoke();
+        IsPoolReady = true;
+
     }
 
 

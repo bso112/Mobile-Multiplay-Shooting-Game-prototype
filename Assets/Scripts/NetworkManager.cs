@@ -9,11 +9,27 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    #region Singleton
+    public static NetworkManager instance;
+
+    private void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogError("NetworkManager intance is already exist");
+            return;
+        }
+        instance = this;
+    }
+
+    #endregion
 
     public Text connectionStatusText;
-    [Header("Player Characters")]
-    public GameObject[] playerPrefabs;
+
+    //플레이어가 선택한 캐릭터
     private string currentPlayerPrefab;
+    //게임 시작했을때 바로 나오는 캐릭터
+    public GameObject defaultCharacterModel;
 
     [Header("Login Panel")]
     public GameObject loginPanel;
@@ -23,6 +39,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject gameOptionPanel;
     public Button PlayButton;
     public Button CharacterListButton;
+    public CharacterPreview characterPreview;
 
     [Header("CharacterListPanel")]
     public GameObject characterListPanel;
@@ -31,6 +48,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     [Header("LoadingPanel")]
     public GameObject loadingPanel;
     public Text playerCount;
+
+    [Header("CharacterStatsPanel")]
+    public GameObject characterStatsPanel;
 
     [Range(0, 1)]
     private int team;
@@ -42,7 +62,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         ShowOnlyOnePanel(loginPanel.name);
         PhotonNetwork.AutomaticallySyncScene = true;
-        currentPlayerPrefab = "Dynamik";
+        currentPlayerPrefab = "Soldier";
+        characterPreview.currentModel = defaultCharacterModel;
     }
 
     // Update is called once per frame
@@ -50,6 +71,15 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         connectionStatusText.text = PhotonNetwork.NetworkClientState.ToString();
     }
+
+    public void SetCharacter(CharacterInfo _characterInfo)
+    {
+        //플레이어의 캐릭터 선택을 저장한다.
+        currentPlayerPrefab = _characterInfo.name;
+    }
+
+
+
 
     #region Photon Callbacks
 
@@ -60,33 +90,46 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 
     public override void OnJoinedRoom()
-    {
+    {   
+        //로컬에서만 실행
+        Debug.Log("OnJoinedRoom");
         playerCount.text = PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers;
-        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable() { { "team", team++ } });
+
+        //팀은 마스터클라이언트(방장)에서만 관리한다.
+        if(PhotonNetwork.IsMasterClient)
+            PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable() { { "team", team++ } });
+
+        //플레이어의 캐릭터 선택은 로컬에서 관리한다.
         PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable() { { "character", currentPlayerPrefab } });
+
         ShowOnlyOnePanel(loadingPanel.name);
+
 
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
+        //방장에서만 실행
+        //Debug.Log("OnPlayerEnteredRoom");
         playerCount.text = PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers;
 
-        if(team > 1)
+        if (team > 1)
         {
             team = 0;
         }
 
         newPlayer.SetCustomProperties(new Hashtable() { { "team", team++ } });
-        newPlayer.SetCustomProperties(new Hashtable() { { "character", currentPlayerPrefab } });
 
         if (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers)
         {
             PhotonNetwork.LoadLevel("GameScene");
         }
+
+
+
     }
 
-    
+
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -127,7 +170,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void OnCharacterListBtnClicked()
     {
-
+        ShowOnlyOnePanel(characterListPanel.name);
 
     }
 
@@ -138,10 +181,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void ShowOnlyOnePanel(string _panelName)
     {
+
         loginPanel.SetActive(_panelName.Equals(loginPanel.name));
         gameOptionPanel.SetActive(_panelName.Equals(gameOptionPanel.name));
         characterListPanel.SetActive(_panelName.Equals(characterListPanel.name));
         loadingPanel.SetActive(_panelName.Equals(loadingPanel.name));
+        characterStatsPanel.SetActive(_panelName.Equals(characterStatsPanel.name));
     }
 
     #endregion

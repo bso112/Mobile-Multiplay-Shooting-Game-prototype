@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Bullet : Projectile
 {
@@ -14,7 +15,7 @@ public class Bullet : Projectile
         //사거리 벗어나면 사라짐
         if(Vector3.Distance(owner.position, transform.position) > ownerStats.range.GetValue())
         {
-            gameObject.SetActive(false);
+            PhotonNetwork.Destroy(gameObject);
         }
 
     }
@@ -23,10 +24,10 @@ public class Bullet : Projectile
     {
 
         CharacterStats target = other.GetComponent<CharacterStats>();
-        if(target!=null && target != ownerStats)
+        if(target!=null && ownerStats != null && target != ownerStats )
         {   
             target.TakeDamageRPC(ownerStats.attack.GetValue());
-            gameObject.SetActive(false);
+            PhotonNetwork.Destroy(gameObject);
         }
         
     }

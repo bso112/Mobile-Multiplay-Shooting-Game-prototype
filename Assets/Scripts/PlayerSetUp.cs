@@ -13,6 +13,7 @@ public class PlayerSetup : MonoBehaviour
     private Shooter shooter;
     private PhotonView photonView;
     private FollowCam followCam;
+    private ItemPickup pickup;
     [HideInInspector]
     public int Team { get; private set; }
 
@@ -23,6 +24,7 @@ public class PlayerSetup : MonoBehaviour
         motor = GetComponent<PlayerMotor>();
         shooter = GetComponent<Shooter>();
         followCam = Camera.main.transform.GetComponent<FollowCam>();
+
     }
 
     // Start is called before the first frame update
@@ -60,6 +62,7 @@ public class PlayerSetup : MonoBehaviour
         if (photonView == null)
             Debug.LogError("포톤 뷰가 없습니다");
         photonView.RPC("SetTeam", RpcTarget.AllBuffered, _team);
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName + "의 팀은" + Team);
     }
 
     [PunRPC]
