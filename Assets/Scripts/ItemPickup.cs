@@ -3,23 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+[RequireComponent(typeof(CharacterStats))]
 public class ItemPickup : MonoBehaviour
 {
     //동전을 줍고, 게임매니저(마스터클라이언트)에게 스코어를 획득했음을 알린다.
-    int score = 0;
-    PlayerSetup setup;
-    PhotonView view;
+    public int score { get; private set; }
+    private PlayerSetup setup;
+    private PhotonView view;
+    private CharacterStats stats;
+
+    //죽을 때 드랍되는 코인에 가해지는 힘
+    public float popPower { get; private set; }
 
 
     private void Start()
     {
         setup = GetComponent<PlayerSetup>();
         view = GetComponent<PhotonView>();
+        stats = GetComponent<CharacterStats>();
+        stats.onPlayerDie += DropCoins;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(view.IsMine)
+        if (view.IsMine)
         {
             Coin coin = other.GetComponent<Coin>();
             if (coin != null)
@@ -28,7 +35,22 @@ public class ItemPickup : MonoBehaviour
                 OnPickCoinRPC();
             }
         }
-        
+
+    }
+
+    //플레이어가 죽을때 코인을 드랍한다.
+    private void DropCoins()
+    {
+        for (int i = 0; i < score; i++)
+        {
+            float x = Random.Range(-1f, 1f);
+            float z = Random.Range(-1f, 1f);
+            Vector3 randomDir = new Vector3(x, 1, z);
+            GameObject coin = PhotonNetwork.Instantiate("Coin", transform.position, Quaternion.identity);
+            coin.GetComponent<Rigidbody>().AddForce(randomDir * popPower, ForceMode.Impulse);
+        }
+
+        score = 0;
     }
 
     /// <summary>
@@ -48,17 +70,17 @@ public class ItemPickup : MonoBehaviour
         }
         else
             return;
-           
+
     }
     [PunRPC]
     private void OnPickCoin()
     {
         //마스터클라이언트 게임 인스턴스에 있는 플레이어의 분신이 실행한다.
         ScoreManager scoreMgr = ScoreManager.Instance;
-        if(scoreMgr != null)
+        if (scoreMgr != null)
         {
             scoreMgr.AddScore(setup.Team);
-            
+
         }
     }
 }

@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [HideInInspector]
-    //슈터로부터 사용자 스텟정보를 받아야함.(데미지 적용을 위함)
-    public CharacterStats ownerStats;
-    [HideInInspector]
+
+    protected CharacterStats ownerStats;
     protected Transform owner;
+    private GameManager gm;
 
     [Header("기본공격에 붙는 추가데미지")]
-    public float damage;
+    [SerializeField]
+    protected float damage;
 
     void Start()
     {
-        if(ownerStats != null)
-            owner = ownerStats.gameObject.transform;
+        gm = GameManager.Instance;
+        owner = gm.localPlayer.transform;
+        ownerStats = gm.localPlayer.GetComponent<CharacterStats>();
     }
 
     

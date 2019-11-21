@@ -38,7 +38,6 @@ public class PlayerSetup : MonoBehaviour
             motor.joyStick = canvas.Find("Movement Joystick").GetComponent<Joystick>();
             canvas.Find("AttackButton").GetComponent<Button>().onClick.AddListener(shooter.OnShotButtonClicked);
             canvas.Find("UltiButton").GetComponent<Button>().onClick.AddListener(shooter.OnUltiButtonClicked);
-            transform.tag = "LocalPlayer";
         }
         else
         {

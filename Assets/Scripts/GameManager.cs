@@ -24,6 +24,14 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    /// <summary>
+    /// 로컬 플레이어의 캐릭터 오브젝트
+    /// </summary>
+    public GameObject localPlayer { get; private set; }
+
+    [SerializeField]
+    private Text countDownText;
+
     [Header("mathTablePanel 관련")]
     public GameObject matchTablePanel;
 
@@ -48,10 +56,9 @@ public class GameManager : MonoBehaviour
 
 
     private PhotonView photonView;
-    private TeamManager teamMgr;
+    private ScoreManager scoreMgr;
 
     private Dictionary<string, Sprite> portraitDic = new Dictionary<string, Sprite>();
-
 
 
     [Header("게임 러닝타임(초)")]
@@ -59,20 +66,35 @@ public class GameManager : MonoBehaviour
     private float GameTimeLimit;
     public float CurrentGameTime { get; private set; }
 
-    [Range(0,1)]
+    //게임진행 관련 필드
+    [Range(0, 1)]
     private int winner;
-    private bool timeOut;
+    public bool isGameEnd { get; private set; }
     private bool gotTenCoin;
-
-    private System.Action OnScoreUpdated;
 
     //한번만 실행하기 위한 단순한 락
     private bool Lock;
 
+    [Header("카운트다운")]
+    [SerializeField]
+    private float countDownMax = 10;
+    private float cached_countDownMax;
+
+
+
     private void Start()
     {
         photonView = GetComponent<PhotonView>();
-        teamMgr = TeamManager.Instance;
+        scoreMgr = ScoreManager.Instance;
+
+        //점수가 바뀔때마다 일어나는 이벤트
+        if (scoreMgr != null)
+        {
+            scoreMgr.onScoreChanged += GotTenCoin;
+            scoreMgr.onScoreChanged += CountDown;
+        }
+
+        cached_countDownMax = countDownMax;
 
     }
 
@@ -88,13 +110,63 @@ public class GameManager : MonoBehaviour
 
         if (CurrentGameTime >= GameTimeLimit)
         {
-            timeOut = true;
+            isGameEnd = true;
         }
 
-        //if (teamMgr.ATeamScore > 10 || teamMgr.BTeamScore > 10)
-        //{
-        //    gotTenCoin = true;
-        //}
+        if (isGameEnd)
+        {
+            EndGame();
+        }
+
+    }
+
+    private void EndGame()
+    {
+        if (isGameEnd)
+        {
+            Debug.Log("게임 끝");
+        }
+    }
+
+    private void CountDown()
+    {
+        //한쪽이라도 10개 이상의 코인을 가지고 있으면 카운트다운.
+        if (gotTenCoin)
+            StartCoroutine(CountDownCorutine());
+    }
+
+    private IEnumerator CountDownCorutine()
+    {
+
+        //카운트다운 하는 동안 코인 뺏겨서 10개 이하되면 중단.
+        while (countDownMax > 0 && gotTenCoin)
+        {
+            countDownMax -= Time.deltaTime;
+            int minute = (int)countDownMax;
+            countDownText.text = minute.ToString();
+
+            yield return null;
+        }
+
+        //카운트다운이 0보다 작아지면 게임 끝.
+        if (countDownMax <= 0)
+        {
+            isGameEnd = true;
+        }
+
+        countDownMax = cached_countDownMax;
+
+    }
+
+    private void GotTenCoin()
+    {
+        if (scoreMgr.ATeamScore >= 10 || scoreMgr.BTeamScore >= 10)
+        {
+            gotTenCoin = true;
+
+        }
+        gotTenCoin = false;
+
     }
 
 
@@ -130,27 +202,28 @@ public class GameManager : MonoBehaviour
             int B_index = 0;
 
 
-                ExitGames.Client.Photon.Hashtable properties = PhotonNetwork.LocalPlayer.CustomProperties;
+            ExitGames.Client.Photon.Hashtable properties = PhotonNetwork.LocalPlayer.CustomProperties;
 
 
-                //A팀은 A팀 포지션에서 스폰, B팀은 B팀 포지션에서 스폰.
-                if ((int)properties["team"] == 0)
-                {
-                    A_index = Mathf.Clamp(A_index, 0, A_spawnPoints.Length);
-                    GameObject character = PhotonNetwork.Instantiate((string)properties["character"], A_spawnPoints[A_index++].position, Quaternion.identity);
-                    //각 플레이어마다 팀을 정해준다.
-                    character.GetComponent<PlayerSetup>().SetTeamRPC(0);
 
-                }
-                else
-                {
-                    B_index = Mathf.Clamp(B_index, 0, A_spawnPoints.Length);
-                    GameObject character = PhotonNetwork.Instantiate((string)properties["character"], B_spawnPoints[B_index++].position, Quaternion.identity);
-                    character.GetComponent<PlayerSetup>().SetTeamRPC(1);
-                }
+            //A팀은 A팀 포지션에서 스폰, B팀은 B팀 포지션에서 스폰.
+            if ((int)properties["team"] == 0)
+            {
+                A_index = Mathf.Clamp(A_index, 0, A_spawnPoints.Length);
+                localPlayer = PhotonNetwork.Instantiate((string)properties["character"], A_spawnPoints[A_index++].position, Quaternion.identity);
+                //각 플레이어마다 팀을 정해준다.
+                localPlayer.GetComponent<PlayerSetup>().SetTeamRPC(0);
+
+            }
+            else
+            {
+                B_index = Mathf.Clamp(B_index, 0, B_spawnPoints.Length);
+                localPlayer = PhotonNetwork.Instantiate((string)properties["character"], B_spawnPoints[B_index++].position, Quaternion.identity);
+                localPlayer.GetComponent<PlayerSetup>().SetTeamRPC(1);
+            }
 
 
-            
+
 
 
             //매치테이블 셋팅
@@ -167,36 +240,11 @@ public class GameManager : MonoBehaviour
         Destroy(matchTablePanel, 3f);
 
 
-        //OnScoreUpdated += EndGame;
 
     }
 
 
 
-
-
-
-
-    
-
-
-    //private void EndGame()
-    //{
-    //    if (timeOut)
-    //    {
-    //        if (teamMgr.ATeamScore > teamMgr.BTeamScore)
-    //        {
-    //            winner = 0;
-    //        }
-    //        else
-    //            winner = 1;
-
-    //    }
-    //}
-
-
-
-   
 
 
     //매치테이블을 셋팅

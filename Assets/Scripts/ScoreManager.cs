@@ -14,6 +14,8 @@ public class ScoreManager : MonoBehaviour
     public int ATeamScore { get; private set; }
     public int BTeamScore { get; private set; }
 
+    public System.Action onScoreChanged;
+
     private void Awake()
     {
         if (!PhotonNetwork.IsMasterClient)
@@ -29,6 +31,7 @@ public class ScoreManager : MonoBehaviour
         }
         Instance = this;
 
+
     }
 
     private PhotonView view;
@@ -38,7 +41,6 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         teamMgr = TeamManager.Instance;
         
     }
@@ -55,6 +57,8 @@ public class ScoreManager : MonoBehaviour
             BTeamScore++;
 
         teamMgr.UpdateScoreRPC(ATeamScore, BTeamScore);
+
+        onScoreChanged?.Invoke();
 
         
     }

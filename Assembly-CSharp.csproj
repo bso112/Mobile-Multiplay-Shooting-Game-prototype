@@ -112,6 +112,7 @@
     <Compile Include="Assets\Scripts\Helper\GradientHelper.cs" />
     <Compile Include="Assets\Scripts\Helper\MathParabola.cs" />
     <Compile Include="Assets\Scripts\Helper\ParabolaController.cs" />
+    <Compile Include="Assets\Scripts\Helper\RPC_helper.cs" />
     <Compile Include="Assets\Scripts\ItemPickup.cs" />
     <Compile Include="Assets\Scripts\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\ObjectPooler.cs" />

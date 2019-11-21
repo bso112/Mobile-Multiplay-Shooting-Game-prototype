@@ -15,7 +15,6 @@ public class ParabolaShooter : Shooter
         {
             Debug.LogError("프로젝타일이 null임");
         }
-        projectile.GetComponent<Projectile>().ownerStats = ownerStats;
         yield return new WaitForSeconds(shootDelay);
 
     }

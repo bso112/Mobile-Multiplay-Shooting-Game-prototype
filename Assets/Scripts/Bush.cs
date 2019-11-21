@@ -16,11 +16,11 @@ public class Bush : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Player") || other.transform.CompareTag("LocalPlayer"))
+        if (other.transform.CompareTag("Player"))
         {
             PlayerSetup setup = other.GetComponent<PlayerSetup>();
             //아군이면 부쉬 속에서 투명하게 보인다.              
-            if (teamManager.HomeTeam == setup.Team)
+            if (teamManager != null && teamManager.HomeTeam == setup.Team)
             {
                 meshRenderer.material.color = ModifyAlpha(meshRenderer, 0.3f);
             }
@@ -30,7 +30,7 @@ public class Bush : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.CompareTag("Player") || other.transform.CompareTag("LocalPlayer"))
+        if (other.transform.CompareTag("Player"))
         {
             PlayerSetup setup = other.GetComponent<PlayerSetup>();
 
