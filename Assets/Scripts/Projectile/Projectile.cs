@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Projectile : MonoBehaviour
 {
@@ -8,18 +9,34 @@ public class Projectile : MonoBehaviour
     protected CharacterStats ownerStats;
     protected Transform owner;
     private GameManager gm;
+    protected PhotonView view;
+
 
     [Header("기본공격에 붙는 추가데미지")]
     [SerializeField]
     protected float damage;
 
-    void Start()
+    private void Awake()
     {
-        gm = GameManager.Instance;
-        owner = gm.localPlayer.transform;
-        ownerStats = gm.localPlayer.GetComponent<CharacterStats>();
+        view = GetComponent<PhotonView>();
+    }
+    protected void Start()
+    {
+        if (view.IsMine)
+        {
+            gm = GameManager.Instance;
+            owner = gm.localPlayer.transform;
+            ownerStats = gm.localPlayer.GetComponent<CharacterStats>();
+            Debug.Log("로컬 소유의 발사체임");
+        }
+        else
+            this.enabled = false;
+       
     }
 
-    
+
+
+
+
 
 }

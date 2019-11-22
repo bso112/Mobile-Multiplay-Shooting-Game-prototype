@@ -37,8 +37,9 @@ public class Bomb : Projectile
 
     }
 
-    private void Start()
+    private new void Start()
     {
+        base.Start();
         startPos = transform.position;
         controller = GetComponent<ParabolaController>();
         particle = effect.GetComponent<ParticleSystem>();
@@ -101,7 +102,7 @@ public class Bomb : Projectile
 
             //파티클 시스템 재생
             GameObject effectObj = PhotonNetwork.Instantiate(effect.name, transform.position, Quaternion.identity);
-            PhotonNetwork.Destroy(gameObject);
+            MasterClientAgent.DestroyRequestToMaster(gameObject);
         }
 
         
