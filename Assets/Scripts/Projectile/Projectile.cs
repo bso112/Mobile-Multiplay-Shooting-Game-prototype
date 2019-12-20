@@ -22,16 +22,13 @@ public class Projectile : MonoBehaviour
     }
     protected void Start()
     {
-        if (view.IsMine)
-        {
-            gm = GameManager.Instance;
-            owner = gm.localPlayer.transform;
-            ownerStats = gm.localPlayer.GetComponent<CharacterStats>();
-            Debug.Log("로컬 소유의 발사체임");
-        }
-        else
-            this.enabled = false;
-       
+
+        gm = GameManager.Instance;
+        owner = gm.localPlayer.transform;
+        ownerStats = gm.localPlayer.GetComponent<CharacterStats>();
+        Debug.Log("로컬 소유의 발사체임");
+
+
     }
 
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class GameResultManager : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class GameResultManager : MonoBehaviour
         foreach (Player player in PhotonNetwork.PlayerList)
         {
 
-            ExitGames.Client.Photon.Hashtable properties = player.CustomProperties;
+            Hashtable properties = player.CustomProperties;
 
             Debug.Log("플레이어 이름: " + player.NickName + "팀 :" + (int)properties["team"]);
             //0이면 레드팀, 1이면 블루팀
@@ -94,7 +95,10 @@ public class GameResultManager : MonoBehaviour
         DataPipeline.Instance.Clear();
         PhotonNetwork.LoadLevel("Lobby");
         if (PhotonNetwork.InRoom)
+        {
             PhotonNetwork.LeaveRoom();
+            Debug.Log("방을 나갑니다");
+        }
         else
             Debug.Log("룸 밖에 있습니다.");
     }

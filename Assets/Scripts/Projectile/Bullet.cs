@@ -32,6 +32,8 @@ public class Bullet : Projectile
             target.TakeDamageRPC(ownerStats.attack.GetValue());
             MasterClientAgent.DestroyRequestToMaster(gameObject);
         }
+        else
+            Debug.Log("타깃에 캐릭터스탯이 없거나 로컬플레이어의 스탯이 없거나 타겟이 로컬플레이어입니다.");
 
     }
 }

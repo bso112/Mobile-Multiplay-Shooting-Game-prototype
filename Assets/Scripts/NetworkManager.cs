@@ -61,9 +61,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     void Start()
     {
         ShowOnlyOnePanel(loginPanel.name);
-        PhotonNetwork.AutomaticallySyncScene = true;
         currentPlayerPrefab = "Soldier";
         characterPreview.currentModel = defaultCharacterModel;
+        
     }
 
     // Update is called once per frame
@@ -90,7 +90,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
 
     public override void OnJoinedRoom()
-    {   
+    {
+        PhotonNetwork.AutomaticallySyncScene = true;
         //로컬에서만 실행
         Debug.Log("OnJoinedRoom");
         playerCount.text = PhotonNetwork.CurrentRoom.PlayerCount + " / " + PhotonNetwork.CurrentRoom.MaxPlayers;
@@ -189,6 +190,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         characterListPanel.SetActive(_panelName.Equals(characterListPanel.name));
         loadingPanel.SetActive(_panelName.Equals(loadingPanel.name));
         characterStatsPanel.SetActive(_panelName.Equals(characterStatsPanel.name));
+
+        
     }
 
     #endregion

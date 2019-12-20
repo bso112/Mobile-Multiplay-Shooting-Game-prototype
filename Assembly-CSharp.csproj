@@ -113,6 +113,7 @@
     <Compile Include="Assets\Scripts\GameResultManager.cs" />
     <Compile Include="Assets\Scripts\Helper\GradientHelper.cs" />
     <Compile Include="Assets\Scripts\Helper\MathParabola.cs" />
+    <Compile Include="Assets\Scripts\Helper\Offline_setup.cs" />
     <Compile Include="Assets\Scripts\Helper\ParabolaController.cs" />
     <Compile Include="Assets\Scripts\Helper\Singleton.cs" />
     <Compile Include="Assets\Scripts\ItemPickup.cs" />

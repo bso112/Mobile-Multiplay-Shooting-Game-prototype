@@ -24,6 +24,7 @@ ScriptsOnlyBuild:
     - MasterClientAgent
     - NetworkManager
     - ObjectPooler
+    - Offline_setup
     - ParabolaMovement
     - ParabolaShooter
     - PlayerMotor
@@ -41,8 +42,6 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
-    PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonRigidbodyView
@@ -117,7 +116,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 9554}
     - Class: 114
-      Script: {instanceID: 11122}
+      Script: {instanceID: 11124}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 120
@@ -228,17 +227,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10836}
     - Class: 114
-      Script: {instanceID: 10990}
+      Script: {instanceID: 10992}
     - Class: 114
-      Script: {instanceID: 11110}
+      Script: {instanceID: 11112}
     - Class: 114
-      Script: {instanceID: 11176}
+      Script: {instanceID: 11178}
     - Class: 114
-      Script: {instanceID: 11188}
+      Script: {instanceID: 11190}
     - Class: 114
-      Script: {instanceID: 11278}
+      Script: {instanceID: 11280}
     - Class: 114
-      Script: {instanceID: 11368}
+      Script: {instanceID: 11370}
+    - Class: 114
+      Script: {instanceID: 281930}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -401,19 +402,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10836}
     - Class: 114
-      Script: {instanceID: 11004}
+      Script: {instanceID: 11006}
     - Class: 114
-      Script: {instanceID: 11148}
+      Script: {instanceID: 11150}
     - Class: 114
-      Script: {instanceID: 11188}
+      Script: {instanceID: 11190}
     - Class: 114
-      Script: {instanceID: 11278}
+      Script: {instanceID: 11280}
     - Class: 114
-      Script: {instanceID: 11360}
+      Script: {instanceID: 11362}
     - Class: 114
-      Script: {instanceID: 11368}
+      Script: {instanceID: 11370}
     - Class: 114
-      Script: {instanceID: 11374}
+      Script: {instanceID: 11376}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1201,7 +1202,7 @@ ScriptsOnlyBuild:
     className: ToDemoHubButton
   - hash:
       serializedVersion: 2
-      Hash: bb43ed9bbcd63ce94949a8197891cb82
+      Hash: 071b175f42a79ae4a3f3661abf0fa50b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Bomb
@@ -1333,7 +1334,7 @@ ScriptsOnlyBuild:
     className: OnClickRpc
   - hash:
       serializedVersion: 2
-      Hash: 209edf4a9a171acc2190dea92055b7de
+      Hash: 63e0e974f35c6ac353d7487536e22f54
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CharacterSlot
@@ -2729,6 +2730,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: UnityStandardAssets.Utility
     className: AutoMobileShaderSwitch
+  - hash:
+      serializedVersion: 2
+      Hash: 4014af88b25669f76d5228bd6583da15
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Offline_setup
   platform: 19
   scenePathNames:
   - Assets/Scenes/Lobby.unity

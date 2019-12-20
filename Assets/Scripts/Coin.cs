@@ -26,7 +26,7 @@ public class Coin : MonoBehaviour
     private void Awake()
     {
         view = GetComponent<PhotonView>();
-        Debug.Log("어웨크 콜");
+
     }
     
 

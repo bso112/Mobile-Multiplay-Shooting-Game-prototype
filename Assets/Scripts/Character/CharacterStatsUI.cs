@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 외부에서 characterInfo를 받아 캐릭터 스탯을 UI에 보여주는 클래스
+/// </summary>
 public class CharacterStatsUI : MonoBehaviour
 {
     private CharacterInfo character;
-    public Text name;
+    public new Text name;
     public Text maxHP;
     public Text attack;
     public Text specialAttack;
@@ -18,7 +21,7 @@ public class CharacterStatsUI : MonoBehaviour
 
 
 
-
+    //캐릭터의 스탯을 보여준다.
     public void SetInfo(CharacterInfo _character)
     {
         character = _character;
@@ -33,9 +36,11 @@ public class CharacterStatsUI : MonoBehaviour
         specialAttack.text = character.specialAttack.GetValue().ToString();
     }
 
+
+    //캐릭터가 최종적으로 선택됬을때 네트워크 매니저에게 선택된 characterInfo를 넘겨준다.
     public void OnSelectBtnClicked()
     {
         NetworkManager.instance.SetCharacter(character);
-        NetworkManager.instance.gameOptionPanel.GetComponent<CharacterPreview>().currentModel = character.model;
+        GameObject.Find("Canvas").transform.Find("GameOptionPanel").GetComponent<CharacterPreview>().currentModel = character.model;
     }
 }

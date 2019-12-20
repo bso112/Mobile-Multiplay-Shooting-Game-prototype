@@ -10,15 +10,14 @@ public class Bomb : Projectile
     public float radius;
     [Header("대상이 위로 뜨는 정도")]
     public float upForce;
-    [Header("폭탄이 터지기까지의 딜레이")]
-    public float explosionDelay;
 
 
-    public GameObject effect;
+
+
 
     private ParabolaController controller;
     private Vector3 startPos;
-    private ParticleSystem particle;
+    public GameObject effectPrefab;
     private Renderer[] renderers;
 
     private void OnEnable()
@@ -31,7 +30,7 @@ public class Bomb : Projectile
             }
         }
 
-        if(controller != null)
+        if (controller != null)
             controller.FollowParabola();
 
 
@@ -42,7 +41,6 @@ public class Bomb : Projectile
         base.Start();
         startPos = transform.position;
         controller = GetComponent<ParabolaController>();
-        particle = effect.GetComponent<ParticleSystem>();
         renderers = GetComponentsInChildren<Renderer>();
     }
 
@@ -61,51 +59,74 @@ public class Bomb : Projectile
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.CompareTag("LocalPlayer"))
-            return;
 
         Debug.Log("bomb Collided with" + collision.transform.name);
 
         StartCoroutine(Explosion());
-
 
     }
 
     IEnumerator Explosion()
     {
 
-        if (ownerStats != null)
+
+
+        //부딪힌 곳을 시작으로 radius만큼 주변에 있는 콜라이더들을 가져움
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        foreach (var col in colliders)
         {
-            yield return new WaitForSeconds(explosionDelay);
-
-            //부딪힌 곳을 시작으로 radius만큼 주변에 있는 콜라이더들을 가져움
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-            foreach (var col in colliders)
+            PhotonView view = col.transform.GetComponent<PhotonView>();
+            //로컬플레이어면 패스
+            if (view != null)
             {
-                //로컬플레이어 혹은 움직일 수 없는 오브젝트면 패스.
-                if (col.CompareTag("LocalPlayer"))
+                if (view.Owner == PhotonNetwork.LocalPlayer)
                     continue;
-
-                Rigidbody rib = col.GetComponent<Rigidbody>();
-                if (rib != null)
-                {
-                    rib.AddExplosionForce(power, transform.position, radius, upForce, ForceMode.Force);
-                    CharacterStats targetStats = col.GetComponent<CharacterStats>();
-                    if (targetStats != null)
-                    {
-                        targetStats.TakeDamageRPC(ownerStats.attack.GetValue() + damage);
-
-                    }
-
-                }
             }
 
-            //파티클 시스템 재생
-            GameObject effectObj = PhotonNetwork.Instantiate(effect.name, transform.position, Quaternion.identity);
-            MasterClientAgent.DestroyRequestToMaster(gameObject);
+            //밀어내고 데미지 주기
+            Rigidbody rib = col.GetComponent<Rigidbody>();
+            if (rib != null)
+            {
+                rib.AddExplosionForce(power, transform.position, radius, upForce, ForceMode.Force);
+                CharacterStats targetStats = col.GetComponent<CharacterStats>();
+                
+                if (targetStats != null)
+                {
+                    Debug.Log(targetStats.gameObject.name);
+                    targetStats.TakeDamageRPC(ownerStats.attack.GetValue() + damage);
+
+                }
+
+            }
         }
 
+        //이펙트 생성, 파괴, 오브젝트 파괴
+        GameObject effectObj;
         
+        if (PhotonNetwork.IsConnectedAndReady)
+        { effectObj = PhotonNetwork.Instantiate(effectPrefab.name, transform.position, Quaternion.identity); }
+        else //오프라인 테스트용 코드
+        { effectObj = Instantiate(effectPrefab, transform.position, Quaternion.identity); }
+
+        float duration = effectObj.GetComponent<ParticleSystem>().main.duration;
+
+        if (view.IsMine)
+        {
+            PhotonNetwork.Destroy(this.gameObject);
+            yield return new WaitForSeconds(duration);
+            PhotonNetwork.Destroy(effectObj);
+        }
+
+        if (!PhotonNetwork.IsConnectedAndReady)
+        {
+            Destroy(effectObj, duration);
+            Destroy(gameObject);
+
+        }
+
+
+
+
     }
 
     private void OnDrawGizmos()

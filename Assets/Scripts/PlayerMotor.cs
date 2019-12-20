@@ -15,13 +15,13 @@ public class PlayerMotor : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(joyStick != null)
         {
             Vector3 direction = Vector3.forward * joyStick.Vertical + Vector3.right * joyStick.Horizontal;
             rb.MovePosition(transform.position + direction * speed * Time.deltaTime);
-
+            //보간 필요
             transform.LookAt(transform.position + direction);
 
         }

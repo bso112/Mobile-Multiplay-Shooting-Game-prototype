@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
     private float countDownMax = 10;
     private float cached_countDownMax;
 
+    
 
 
     private void Start()
@@ -95,6 +96,8 @@ public class GameManager : MonoBehaviour
         }
 
         cached_countDownMax = countDownMax;
+
+      
 
     }
 
@@ -259,7 +262,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("not ready");
+            Debug.Log("not ready - offline");
         }
 
         //3초후 게임시작하는 걸 가정함.
