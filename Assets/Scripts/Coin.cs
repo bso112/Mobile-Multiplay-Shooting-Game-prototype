@@ -15,14 +15,20 @@ public class Coin : MonoBehaviour
     {
         if (other.tag.Equals("Player"))
         {
-            MasterClientAgent.DestroyRequestToMaster(gameObject);
+            Debug.Log("뷰의 오너 : " + view.Owner.NickName);
+            if(view.Owner != PhotonNetwork.MasterClient)
+                view.TransferOwnership(PhotonNetwork.LocalPlayer);
+            if (view.IsMine)
+                PhotonNetwork.Destroy(gameObject);
         }
     }
-    private void Start()
+
+    private void Awake()
     {
         view = GetComponent<PhotonView>();
+        Debug.Log("어웨크 콜");
     }
-
+    
 
   
 

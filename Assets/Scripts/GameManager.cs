@@ -67,9 +67,9 @@ public class GameManager : MonoBehaviour
     public float CurrentGameTime { get; private set; }
 
     //게임진행 관련 필드
-    [Range(0, 1)]
-    private int winner;
+    public int winner { get; private set; }
     public bool isGameEnd { get; private set; }
+    public System.Action onGameEnd;
     private bool gotTenCoin;
 
     //한번만 실행하기 위한 단순한 락
@@ -113,6 +113,13 @@ public class GameManager : MonoBehaviour
             isGameEnd = true;
         }
 
+        //테스트용으로 바로 게임클리어하게 하는 장치
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            isGameEnd = true;
+        }
+
+
         if (isGameEnd)
         {
             EndGame();
@@ -125,6 +132,8 @@ public class GameManager : MonoBehaviour
         if (isGameEnd)
         {
             Debug.Log("게임 끝");
+            onGameEnd?.Invoke();
+            PhotonNetwork.LoadLevel("GameResult");
         }
     }
 
@@ -132,7 +141,10 @@ public class GameManager : MonoBehaviour
     {
         //한쪽이라도 10개 이상의 코인을 가지고 있으면 카운트다운.
         if (gotTenCoin)
+        {
             StartCoroutine(CountDownCorutine());
+            Debug.Log("카운트다운 시작");
+        }
     }
 
     private IEnumerator CountDownCorutine()
@@ -151,6 +163,14 @@ public class GameManager : MonoBehaviour
         //카운트다운이 0보다 작아지면 게임 끝.
         if (countDownMax <= 0)
         {
+            if (scoreMgr.ATeamScore > scoreMgr.BTeamScore)
+            {
+                winner = 0;
+            }
+            else 
+                winner = 1;
+
+            Debug.Log("카운트다운 0");
             isGameEnd = true;
         }
 
@@ -160,18 +180,24 @@ public class GameManager : MonoBehaviour
 
     private void GotTenCoin()
     {
-        if (scoreMgr.ATeamScore >= 10 || scoreMgr.BTeamScore >= 10)
+        if ((scoreMgr.ATeamScore >= 10 || scoreMgr.BTeamScore >= 10) && !(scoreMgr.ATeamScore == scoreMgr.BTeamScore))
         {
+            Debug.Log("10개의 이상의 코인 겟");
             gotTenCoin = true;
 
         }
-        gotTenCoin = false;
+        else
+            gotTenCoin = false;
 
     }
 
-
+    
     private void InitGame()
     {
+
+     
+
+
         Debug.Log("initGame");
         //프로필을 셋팅한다. (순서대로 들어가지 않음)
         foreach (GameObject A_Profile in A_TeamProfiles)

@@ -144,10 +144,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CreateRoom(roomName, roomOptions);
     }
 
+   
 
     #endregion
 
     #region UI Methods
+
 
     public void OnLoginBtnClicked()
     {

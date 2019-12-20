@@ -17,7 +17,8 @@ public class Bullet : Projectile
         //사거리 벗어나면 사라짐
         if (Vector3.Distance(owner.position, transform.position) > ownerStats.range.GetValue())
         {
-            MasterClientAgent.DestroyRequestToMaster(gameObject);
+            if(view.IsMine)
+                PhotonNetwork.Destroy(gameObject);
         }
 
     }

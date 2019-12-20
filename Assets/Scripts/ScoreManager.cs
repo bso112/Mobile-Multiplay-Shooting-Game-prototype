@@ -14,15 +14,18 @@ public class ScoreManager : MonoBehaviour
     public int ATeamScore { get; private set; }
     public int BTeamScore { get; private set; }
 
+    private PhotonView view;
+    private ScoreTextManager scoreTextMgr;
+
     public System.Action onScoreChanged;
+
+    //아군에게만 적용되는 효과를 구현하기 위한 장치
+    public int HomeTeam { get; private set; }
+
 
     private void Awake()
     {
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            this.enabled = false;
-            return;
-        }
+
 
         if (Instance != null)
         {
@@ -34,15 +37,17 @@ public class ScoreManager : MonoBehaviour
 
     }
 
-    private PhotonView view;
-    private TeamManager teamMgr;
 
     #endregion
     // Start is called before the first frame update
     void Start()
     {
-        teamMgr = TeamManager.Instance;
-        
+        scoreTextMgr = ScoreTextManager.Instance;
+        view = GetComponent<PhotonView>();
+
+        ExitGames.Client.Photon.Hashtable properties = PhotonNetwork.LocalPlayer.CustomProperties;
+        HomeTeam = (int)properties["team"];
+
     }
 
     /// <summary>
@@ -50,17 +55,23 @@ public class ScoreManager : MonoBehaviour
     /// </summary>
     /// <param name="team"></param>
     public void AddScore(int team)
+    {   
+        
+        view.RPC("AddScoreRPC", RpcTarget.AllBuffered, team);
+
+    }
+
+    [PunRPC]
+    public void AddScoreRPC(int team)
     {
         if (team == 0)
             ATeamScore++;
         else
             BTeamScore++;
 
-        teamMgr.UpdateScoreRPC(ATeamScore, BTeamScore);
+        scoreTextMgr.UpdateScore(ATeamScore, BTeamScore);
 
         onScoreChanged?.Invoke();
-
-        
     }
 
    
