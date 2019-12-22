@@ -39,7 +39,6 @@ public class SpreadingShooter : Shooter
             //발사
             Vector3 direction = new Vector3(shotPos[shotPosCount].forward.x, shotPos[shotPosCount].forward.y - (spreadAngle / 2) + (i * angleForEachShot), shotPos[shotPosCount].forward.z);
             //Vector3 direction = shotPos[shotPosCount].forward;
-            Debug.Log(direction);
             Rigidbody projectileRB = projectile.GetComponent<Rigidbody>();
             projectileRB.AddForce(direction * shotPower, ForceMode.Force);
         }
@@ -52,7 +51,6 @@ public class SpreadingShooter : Shooter
 
     protected override IEnumerator Ultimate(GameObject projectilePrefab)
     {
-        UltimateAni.SetBool("IsUlti", true);
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
 
         //UltiDuration 동안 범위 내의 적들을 0.2초마다 타격한다.
@@ -74,7 +72,6 @@ public class SpreadingShooter : Shooter
             }
             yield return null;
         }
-        UltimateAni.SetBool("IsUlti", false);
         timeCounter = 0;
     }
 

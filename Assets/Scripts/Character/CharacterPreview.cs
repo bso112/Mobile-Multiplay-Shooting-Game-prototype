@@ -16,10 +16,16 @@ public class CharacterPreview : MonoBehaviour
 
     private GameObject modelInstance;
 
+    /// <summary>
+    /// SetPreview에서 생성할 캐릭터 모델을 받는 시점을 정하기 위해 사용된다.
+    /// </summary>
+    public System.Action onEnable;
 
     private void OnEnable()
     {
-        StartCoroutine(SetPreview());
+        onEnable?.Invoke();
+        SetPreview();
+        onEnable = null;
     }
 
     private void OnDisable()
@@ -28,10 +34,8 @@ public class CharacterPreview : MonoBehaviour
     }
 
     //characterStatsPanel의 characterPalceHodler에 캐릭터 모델을 생성한다.
-    private IEnumerator SetPreview()
+    private void SetPreview()
     {
-        //정보의 동기화 시점이 안맞아서 강제로 잠시 대기..(좋은 방법은 아님)
-        yield return new WaitForSeconds(0.05f);
         modelInstance = Instantiate(currentModel, placeHolder.position, placeHolder.rotation);
 
     }

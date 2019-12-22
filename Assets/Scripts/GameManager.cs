@@ -97,6 +97,13 @@ public class GameManager : MonoBehaviour
 
         cached_countDownMax = countDownMax;
 
+        //오프라인 테스트용 코드
+        if(!PhotonNetwork.IsConnectedAndReady)
+        {
+            GameObject character = GameObject.FindWithTag("Player");
+            localPlayer = character;
+        }
+
       
 
     }
@@ -137,6 +144,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("게임 끝");
             onGameEnd?.Invoke();
             PhotonNetwork.LoadLevel("GameResult");
+
         }
     }
 
@@ -157,7 +165,7 @@ public class GameManager : MonoBehaviour
         while (countDownMax > 0 && gotTenCoin)
         {
             countDownMax -= Time.deltaTime;
-            int minute = (int)countDownMax;
+            float minute = Mathf.Round(countDownMax);
             countDownText.text = minute.ToString();
 
             yield return null;

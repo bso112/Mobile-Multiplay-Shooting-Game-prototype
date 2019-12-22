@@ -17,6 +17,17 @@ public class CharacterSlot : MonoBehaviour
     public Text currentEXP;
     public Text maxEXP;
 
+    //이 오브젝트에 붙어있는 버튼 컴포넌트
+    private Button btn_self;
+
+    private void Start()
+    {
+        GameObject characterStatsPanel = GameObject.Find("Canvas").transform.Find("CharacterStatsPanel").gameObject;
+        statsUI = characterStatsPanel.GetComponent<CharacterStatsUI>();
+        preview = characterStatsPanel.GetComponent<CharacterPreview>();
+        btn_self = GetComponent<Button>();
+        btn_self.onClick.AddListener(()=>{ NetworkManager.instance.ShowOnlyOnePanel("CharacterStatsPanel"); });
+    }
     /// <summary>
     /// 슬롯에 캐릭터를 나타낸다.
     /// </summary>
@@ -44,11 +55,18 @@ public class CharacterSlot : MonoBehaviour
         maxEXP.text = "";
     }
 
+    //클릭된 슬롯만이 등록한다.(슬롯의 onclick이벤트에 연결함)
+    public void SubscribePreviewEnable()
+    {
+        preview.onEnable += OnSlotClicked;
+    }
+
     /// <summary>
-    /// 슬롯이 클릭됬을때. 오브젝트 이벤트에 등록되어있다.
+    /// 
     /// </summary>
     public void OnSlotClicked()
     {
+        //스탯UI와 priview에 슬롯에 있는 캐릭터 정보를 넘겨준다.
         statsUI.SetInfo(character);
         preview.currentModel = character.model;
     }

@@ -35,6 +35,7 @@ public class DataPipeline : Singleton<DataPipeline>
 
     private void SetWinner()
     {
+        Debug.Log("승자 :" + winner);
         winner = gm.winner;
     }
 

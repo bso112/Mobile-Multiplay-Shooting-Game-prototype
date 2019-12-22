@@ -8,6 +8,7 @@ public class PlayerMotor : MonoBehaviour
     private Rigidbody rb;
     public Joystick joyStick;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +18,11 @@ public class PlayerMotor : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(joyStick != null)
+        if (joyStick != null)
         {
-            Vector3 direction = Vector3.forward * joyStick.Vertical + Vector3.right * joyStick.Horizontal;
+            Vector3 direction = (Vector3.forward * joyStick.Vertical + Vector3.right * joyStick.Horizontal).normalized;
             rb.MovePosition(transform.position + direction * speed * Time.deltaTime);
-            //보간 필요
+
             transform.LookAt(transform.position + direction);
 
         }
@@ -29,10 +30,10 @@ public class PlayerMotor : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(rb != null)
-            rb.angularVelocity = Vector3.zero;
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(rb != null)
+    //        rb.angularVelocity = Vector3.zero;
+    //}
 
 }

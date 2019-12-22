@@ -26,7 +26,6 @@ public class Projectile : MonoBehaviour
         gm = GameManager.Instance;
         owner = gm.localPlayer.transform;
         ownerStats = gm.localPlayer.GetComponent<CharacterStats>();
-        Debug.Log("로컬 소유의 발사체임");
 
 
     }

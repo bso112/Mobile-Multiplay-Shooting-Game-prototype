@@ -102,10 +102,11 @@
     <Compile Include="Assets\Scripts\Character\CharacterSlot.cs" />
     <Compile Include="Assets\Scripts\Character\CharacterStats.cs" />
     <Compile Include="Assets\Scripts\Character\CharacterStatsUI.cs" />
+    <Compile Include="Assets\Scripts\Character\PlayerMotor.cs" />
     <Compile Include="Assets\Scripts\Coin.cs" />
     <Compile Include="Assets\Scripts\CoinGenerator.cs" />
     <Compile Include="Assets\Scripts\DataPipeline.cs" />
-    <Compile Include="Assets\Scripts\EffectController.cs" />
+    <Compile Include="Assets\Scripts\Effect.cs" />
     <Compile Include="Assets\Scripts\EnemyController.cs" />
     <Compile Include="Assets\Scripts\EnemyMotor.cs" />
     <Compile Include="Assets\Scripts\FollowCam.cs" />
@@ -121,7 +122,6 @@
     <Compile Include="Assets\Scripts\NetworkManager.cs" />
     <Compile Include="Assets\Scripts\ObjectPooler.cs" />
     <Compile Include="Assets\Scripts\ParabolaMovement.cs" />
-    <Compile Include="Assets\Scripts\PlayerMotor.cs" />
     <Compile Include="Assets\Scripts\PlayerSetup.cs" />
     <Compile Include="Assets\Scripts\Projectile\Bomb.cs" />
     <Compile Include="Assets\Scripts\Projectile\Bullet.cs" />

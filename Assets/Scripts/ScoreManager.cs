@@ -47,6 +47,7 @@ public class ScoreManager : MonoBehaviour
 
         ExitGames.Client.Photon.Hashtable properties = PhotonNetwork.LocalPlayer.CustomProperties;
         HomeTeam = (int)properties["team"];
+        Debug.Log("홈팀은" + HomeTeam);
 
     }
 

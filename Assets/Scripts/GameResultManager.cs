@@ -41,8 +41,9 @@ public class GameResultManager : MonoBehaviour
         int A_index = 0;
         int B_index = 0;
 
-        //foreach문에 쓰이는 인덱스
+        //A팀과 B팀 플레이어 이름을 지정할 텍스트 컴포넌트를 나타내기 위한 인덱스
         int i = 0;
+        int j = 0;
 
 
         foreach (Player player in PhotonNetwork.PlayerList)
@@ -57,17 +58,17 @@ public class GameResultManager : MonoBehaviour
                 //플레이어가 나가도 안없어지게 씬오브젝트로 설정
                 if(PhotonNetwork.IsMasterClient)
                     PhotonNetwork.InstantiateSceneObject((string)properties["character"] + "Model", R_spawnPoints[A_index++].transform.position, R_spawnPoints[A_index].rotation);
-                R_nameTexts[i].text = player.NickName;
+                R_nameTexts[i++].text = player.NickName;
                 
             }
             else
             {   
                 if(PhotonNetwork.IsMasterClient)
                     PhotonNetwork.InstantiateSceneObject((string)properties["character"] + "Model", B_spawnPoints[B_index++].transform.position, B_spawnPoints[B_index].rotation);
-                B_nameTexts[i].text = player.NickName;
+                B_nameTexts[j++].text = player.NickName;
             }
 
-            i++;
+
         }
 
         

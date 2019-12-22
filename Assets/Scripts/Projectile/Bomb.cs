@@ -62,11 +62,11 @@ public class Bomb : Projectile
 
         Debug.Log("bomb Collided with" + collision.transform.name);
 
-        StartCoroutine(Explosion());
+        Explosion();
 
     }
 
-    IEnumerator Explosion()
+    private void Explosion()
     {
 
 
@@ -89,7 +89,7 @@ public class Bomb : Projectile
             {
                 rib.AddExplosionForce(power, transform.position, radius, upForce, ForceMode.Force);
                 CharacterStats targetStats = col.GetComponent<CharacterStats>();
-                
+
                 if (targetStats != null)
                 {
                     Debug.Log(targetStats.gameObject.name);
@@ -102,24 +102,25 @@ public class Bomb : Projectile
 
         //이펙트 생성, 파괴, 오브젝트 파괴
         GameObject effectObj;
-        
+
         if (PhotonNetwork.IsConnectedAndReady)
         { effectObj = PhotonNetwork.Instantiate(effectPrefab.name, transform.position, Quaternion.identity); }
         else //오프라인 테스트용 코드
         { effectObj = Instantiate(effectPrefab, transform.position, Quaternion.identity); }
 
-        float duration = effectObj.GetComponent<ParticleSystem>().main.duration;
 
         if (view.IsMine)
         {
+            effectObj.GetComponent<Effect>().Photon_Destroy();
+            //오브젝트 파괴
             PhotonNetwork.Destroy(this.gameObject);
-            yield return new WaitForSeconds(duration);
-            PhotonNetwork.Destroy(effectObj);
+            
         }
 
+        //오프라인 테스트용 코드
         if (!PhotonNetwork.IsConnectedAndReady)
         {
-            Destroy(effectObj, duration);
+            effectObj.GetComponent<Effect>().Delayed_Destroy();
             Destroy(gameObject);
 
         }
