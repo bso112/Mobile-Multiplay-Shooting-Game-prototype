@@ -12,7 +12,7 @@ Hommage to Brawl Stars
 아이디를 입력하여 로그인. 포톤 서버와 연결합니다.
 
 - **캐릭터선택**
-
+![main](readme_img/main.png)
 ![character](readme_img/character.png)
 
 원하는 캐릭터를 선택하면 그 캐릭터로 플레이할 수 있습니다
