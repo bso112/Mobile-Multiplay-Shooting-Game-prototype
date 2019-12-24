@@ -35,7 +35,7 @@ Hommage to Brawl Stars
 
 ![sync](readme_img/sync.png)
 <플레이어1의 화면><br>
-![sync2] (readme_img/sync2.png)
+![sync2](readme_img/sync2.png)
 <플레이어2의 화면><br>
 <br>
 RPC를 사용해 체력과 점수를 동기화합니다. 
