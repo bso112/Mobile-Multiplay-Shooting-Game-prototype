@@ -12,6 +12,7 @@ Hommage to Brawl Stars
 아이디를 입력하여 로그인. 포톤 서버와 연결합니다.
 
 - **캐릭터선택**
+
 ![main](readme_img/main.png)
 ![character](readme_img/character.png)
 
